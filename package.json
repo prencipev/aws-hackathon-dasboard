@@ -1,0 +1,16 @@
+{
+  "name": "aws-hackathon-dasboard",
+  "version": "1.0.0",
+  "description": "Real-time dashboard for mapos and device data",
+  "main": "index.js",
+  "dependencies": {
+    "local-web-server": "^1.2.7",
+    "pubnub": "^4.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vincenzo Prencipe",
+  "license": "ISC"
+}
