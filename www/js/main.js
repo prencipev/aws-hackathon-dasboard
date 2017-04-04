@@ -51,3 +51,79 @@ map.on('load', function() {
         }, 1000);
     });
 });
+
+var pubnub = new PubNub({
+  publishKey: 'pub-c-70966b5d-fa5f-41fe-990a-aa9bae9611f6',
+  subscribeKey: 'sub-c-3084f536-1873-11e7-a5a9-0619f8945a4f'
+});
+eon.chart({
+  pubnub: pubnub,
+  channels: ['eon-gauge'],
+  generate: {
+    bindto: '#chart',
+    data: {
+      type: 'gauge',
+    },
+    gauge: {
+      min: 0,
+      max: 100
+    },
+    color: {
+      pattern: ['#c9c3c3', '#666', '#1e2026', '#232020', '#000'],
+      threshold: {
+        values: [30, 60, 90]
+      }
+    }
+  }
+});
+
+setInterval(function(){
+
+  pubnub.publish({
+    channel: 'eon-gauge',
+    message: {
+      eon: {
+        'data': Math.random() * 99
+      }
+    }
+  })
+
+}, 1000);
+
+eon.chart({
+  channels: ['eon-spline'],
+  history: true,
+  flow: true,
+  pubnub: pubnub,
+  generate: {
+    bindto: '#chart-spine',
+    data: {
+      labels: false
+    },
+grid: {
+        y: {
+            lines: [
+                {value: 40, text: 'High', position: 'start', color:'red'},
+                {value: 10, text: 'Low', position: 'start'}
+            ]
+        }
+    },
+    color: {
+        pattern: ['red']
+    }
+  }
+});
+
+setInterval(function(){
+
+  pubnub.publish({
+    channel: 'eon-spline',
+    message: {
+      eon: {
+        'Temperature': Math.floor(Math.random() * 39),
+
+      }
+    }
+  });
+
+}, 1000);
